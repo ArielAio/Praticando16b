@@ -126,11 +126,11 @@ jobs:
       - name: Prepare EC2 server
         uses: appleboy/ssh-action@v1.2.0
         env:
-          DEPLOY_PATH: ${{ env.DEPLOY_PATH }}
-          EC2_USER: ${{ env.EC2_USER }}
+          DEPLOY_PATH: ${{ vars.EC2_DEPLOY_PATH || '/var/www/html/praticando16b' }}
+          EC2_USER: ${{ secrets.EC2_USER || vars.EC2_USER || 'ubuntu' }}
         with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USER }}
+          host: ${{ secrets.EC2_HOST || vars.EC2_HOST }}
+          username: ${{ secrets.EC2_USER || vars.EC2_USER || 'ubuntu' }}
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: DEPLOY_PATH,EC2_USER
           script: |
@@ -167,26 +167,26 @@ jobs:
         env:
           ARGS: "-rlgoDzvc --delete"
           EXCLUDE: "/.git/, /.github/, /.env, /vendor/, /node_modules/, /tests/, /storage/logs/, /storage/framework/cache/, /storage/framework/sessions/, /storage/framework/views/, /public/img/events/"
-          REMOTE_HOST: ${{ env.EC2_HOST }}
-          REMOTE_USER: ${{ env.EC2_USER }}
+          REMOTE_HOST: ${{ secrets.EC2_HOST || vars.EC2_HOST }}
+          REMOTE_USER: ${{ secrets.EC2_USER || vars.EC2_USER || 'ubuntu' }}
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           SOURCE: "./"
-          TARGET: "${{ env.DEPLOY_PATH }}/"
+          TARGET: "${{ vars.EC2_DEPLOY_PATH || '/var/www/html/praticando16b' }}/"
 
       - name: Finish Laravel deployment
         uses: appleboy/ssh-action@v1.2.0
         env:
-          APP_NAME: ${{ env.APP_NAME }}
-          APP_URL: ${{ env.APP_URL }}
-          DB_DATABASE: ${{ env.DB_DATABASE }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DEPLOY_PATH: ${{ env.DEPLOY_PATH }}
-          EC2_HOST: ${{ env.EC2_HOST }}
-          EC2_USER: ${{ env.EC2_USER }}
+          APP_NAME: ${{ vars.APP_NAME || 'HDC_Events' }}
+          APP_URL: ${{ secrets.APP_URL || vars.APP_URL || '' }}
+          DB_DATABASE: ${{ vars.DB_DATABASE || 'hdcevents' }}
+          DB_PASSWORD: senha_da_nasa
+          DB_USERNAME: laraveluser
+          DEPLOY_PATH: ${{ vars.EC2_DEPLOY_PATH || '/var/www/html/praticando16b' }}
+          EC2_HOST: ${{ secrets.EC2_HOST || vars.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER || vars.EC2_USER || 'ubuntu' }}
         with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USER }}
+          host: ${{ secrets.EC2_HOST || vars.EC2_HOST }}
+          username: ${{ secrets.EC2_USER || vars.EC2_USER || 'ubuntu' }}
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: APP_NAME,APP_URL,DB_DATABASE,DB_PASSWORD,DB_USERNAME,DEPLOY_PATH,EC2_HOST,EC2_USER
           script: |
