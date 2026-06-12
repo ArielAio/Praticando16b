@@ -18,7 +18,7 @@ No primeiro deploy, ele:
 Configure somente estes GitHub Secrets:
 
 - `EC2_HOST`: IP publico ou DNS da EC2.
-- `EC2_SSH_KEY`: chave privada SSH que acessa a EC2.
+- `EC2_SSH_KEY`: chave privada SSH que acessa a EC2, sem passphrase.
 
 Variaveis opcionais:
 
@@ -37,6 +37,7 @@ ssh-keygen -t ed25519 -C "github-actions-praticando16b" -f ~/.ssh/praticando16b_
 ```
 
 Adicione a chave publica ao `~/.ssh/authorized_keys` da EC2 e coloque a chave privada no secret `EC2_SSH_KEY`.
+Use a chave privada completa, sem passphrase, em formato OpenSSH ou PEM.
 
 Depois, envie para a branch `main` ou execute manualmente em **Actions > Deploy Laravel to EC2 > Run workflow**.
 

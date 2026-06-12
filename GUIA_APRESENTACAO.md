@@ -5,7 +5,7 @@
 1. Crie uma EC2 Ubuntu com as portas `22` e `80` liberadas.
 2. No repositorio GitHub, configure os secrets:
    - `EC2_HOST`: IP ou DNS da EC2.
-   - `EC2_SSH_KEY`: chave privada SSH da EC2.
+   - `EC2_SSH_KEY`: chave privada SSH da EC2, sem passphrase.
 3. Envie o projeto para a branch `main`.
 
 O GitHub Actions instala tudo, cria o banco, configura a aplicacao e publica automaticamente.
